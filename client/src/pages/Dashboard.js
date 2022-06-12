@@ -16,7 +16,7 @@ function Dashboard() {
         if (user == null) {
             navigate('/')
         } else {
-            console.log(user.username);
+            console.log(user);
         }
     }, [user])
 
