@@ -9,16 +9,17 @@ function Dashboard() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-
+    const userstate = useSelector(state => state.loginReducer)
+    const { currentUser } = userstate
+    console.log(currentUser);
     useEffect(() => {
 
-        if (user == null) {
+        if (currentUser === null) {
             navigate('/')
         } else {
-            console.log(user);
+            console.log(currentUser);
         }
-    }, [user])
+    }, [currentUser])
 
 
 
@@ -30,8 +31,8 @@ function Dashboard() {
                     <div className="col-md-8 mt-5 mx-auto shadow-lg">
                         <div className='p-5 rounded'>
                             <h1 className='py-4'>Dashboard</h1>
-                            <h2>Welcome <span className="text-style">{user.username}</span></h2>
-                            <h2>Your email is <span className='text-style'>{user.email}</span> </h2>
+                            <h2>Welcome <span className="text-style">{currentUser.username}</span></h2>
+                            <h2>Your email is <span className='text-style'>{currentUser.email}</span> </h2>
                             <li className='btn btn-danger rounded mt-2 float-end' onClick={() => {
                                 dispatch(logoutUser())
                                 toast.error("Logged out!", {
