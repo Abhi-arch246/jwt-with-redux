@@ -4,11 +4,11 @@ export const registerUser = (user) => dispatch => {
 
     dispatch({ type: 'USER_REGISTER_REQUEST' })
 
-    axios.post('/api/users/', user)
+    const response = axios.post('/api/users/', user)
         .then(res => {
             dispatch({ type: 'USER_REGISTER_SUCCESS' })
             console.log(res);
-            localStorage.setItem('currentUser', JSON.stringify(res.data))
+            localStorage.setItem('currentUser', JSON.stringify(res.data.token))
             window.location.href = '/dashboard'
         })
         .catch(err => {
@@ -22,11 +22,11 @@ export const loginUser = (user) => dispatch => {
 
     dispatch({ type: 'USER_LOGIN_REQUEST' })
 
-    axios.post('/api/users/login', user)
+    const response = axios.post('/api/users/login', user)
         .then(res => {
             dispatch({ type: 'USER_LOGIN_SUCCESS' })
 
-            localStorage.setItem('currentUser', JSON.stringify(res.data))
+            localStorage.setItem('currentUser', JSON.stringify(res.data.token))
             window.location.href = '/dashboard'
 
         })

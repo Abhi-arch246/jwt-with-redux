@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs')
 
 const registerUser = async (req, res) => {
     const { username, email, password } = req.body
-    console.log(req.body);
 
     const userExists = await User.findOne({ email })
     if (userExists) {
@@ -23,11 +22,16 @@ const registerUser = async (req, res) => {
             })
 
             if (user) {
-                res.status(200).json({
-                    _id: user.id,
-                    username: user.username,
+                const data = {
+                    _id: user._id,
                     email: user.email,
-                    token: generateToken(user._id)
+                    username: user.username
+
+                }
+
+                res.status(200).json({
+                    msg: "User cred successful",
+                    token: generateToken(data)
                 })
             } else {
                 res.status(400).json({ msg: "Something went wrong" })
@@ -46,11 +50,16 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email })
 
     if (user && (await bcrypt.compare(password, user.password))) {
-        res.status(200).json({
-            _id: user.id,
-            username: user.username,
+        const data = {
+            _id: user._id,
             email: user.email,
-            token: generateToken(user._id)
+            username: user.username
+
+        }
+
+        res.status(200).json({
+            msg: "User cred successful",
+            token: generateToken(data)
         })
     } else {
         res.status(400).json({ msg: "not logged in" })
@@ -68,8 +77,8 @@ const meRoute = async (req, res) => {
 
 }
 
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.SECRET_TOKEN, { expiresIn: '30d' })
+const generateToken = (data) => {
+    return jwt.sign({ data }, process.env.SECRET_TOKEN, { expiresIn: '30d' })
 }
 
 

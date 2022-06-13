@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../actions/userAction'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import loginpic from '../online-optics.svg'
 function Register() {
     const [username, setusername] = useState('')
     const [email, setemail] = useState('')
@@ -33,14 +34,13 @@ function Register() {
     }
 
     return (
-        <div className='row bgcolor px-5 pt-5'>
-            <div className="col-md-6 text-center py-5">
-                <img className='img-class img-fuild' src="https://img.freepik.com/free-vector/web-development-programmer-engineering-coding-website-augmented-reality-interface-screens-developer-project-engineer-programming-software-application-design-cartoon-illustration_107791-3863.jpg?w=996&t=st=1651744935~exp=1651745535~hmac=d4f6d78ec33831fc619d1d3eee3555a57f64a8ac5e700f2a0c17cc4942d50d2d" alt="" />
-            </div>
-            <div className="col-md-4">
-                <div className="card p-2 bg-white">
-                    <h2 className='mt-2' style={{ textAlign: "left", marginLeft: "40px" }}>Register</h2>
-                    <form className='col-md-9 mt-5' onSubmit={registerSubmit} style={{ textAlign: "left", marginLeft: "40px" }}>
+        <div className='row bgcolor p-4'>
+            <h2 className='text-white text-center pb-1'>Ay! Captain Register here</h2>
+
+            <div className="col-md-4 mx-auto mt-3 py-5">
+                <div className="card p-3 bg-white">
+                    <h2 className='pt-2 px-4'>Register</h2>
+                    <form className='mt-5 mx-4' onSubmit={registerSubmit}>
                         <div className="form-group">
                             <h5>Name</h5>
                             <input type="text" value={username} onChange={(e) => setusername(e.target.value)} className="form-control" placeholder="Enter name" required />
@@ -57,13 +57,19 @@ function Register() {
                             <h5>Confirm Password</h5>
                             <input type="password" value={cpassword} onChange={(e) => setcpassword(e.target.value)} className="form-control" placeholder="Confirm Password" required />
                         </div>
-                        <button type="submit" className="submit-btn mt-5">Submit</button>
+                        <div className='text-center'>
 
+                            <button type="submit" className="submit-btn mt-5">Submit</button>
+                        </div>
                     </form>
-                    <Link className="text-primary my-3" to="/login">Already Registered? Click here</Link>
+                    <Link className="text-primary text-center my-3" to="/">Already Registered? Click here</Link>
                 </div>
                 <ToastContainer />
             </div>
+            <div className="col-md-6 mr-5 text-center mt-3 py-5">
+                <img className='img-class img-fuild' src={loginpic} width="450px" height="450px" alt="" />
+            </div>
+
         </div>
     )
 }

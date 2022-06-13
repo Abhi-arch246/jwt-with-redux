@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,18 +8,23 @@ import { logoutUser } from '../actions/userAction'
 function Dashboard() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const userdata = JSON.parse(localStorage.getItem('user'))
 
     const userstate = useSelector(state => state.loginReducer)
     const { currentUser } = userstate
-    console.log(currentUser);
-    useEffect(() => {
+    // console.log(currentUser);
 
-        if (currentUser === null) {
+    useEffect(() => {
+        if (!userdata)
             navigate('/')
-        } else {
-            console.log(currentUser);
-        }
-    }, [currentUser])
+    }, [])
+
+
+
+    // if (!userdata) {
+    //     navigate('/')
+    // }
+
 
 
 
@@ -31,8 +36,16 @@ function Dashboard() {
                     <div className="col-md-8 mt-5 mx-auto shadow-lg">
                         <div className='p-5 rounded'>
                             <h1 className='py-4'>Dashboard</h1>
-                            <h2>Welcome <span className="text-style">{currentUser.username}</span></h2>
-                            <h2>Your email is <span className='text-style'>{currentUser.email}</span> </h2>
+                            {userdata && (
+                                <div>
+                                    <h2>Welcome <span className="text-style">{currentUser.username}</span></h2>
+                                    <h2>Your email is <span className='text-style'>{currentUser.email}</span> </h2>
+                                </div>
+
+                            )
+
+                            }
+
                             <li className='btn btn-danger rounded mt-2 float-end' onClick={() => {
                                 dispatch(logoutUser())
                                 toast.error("Logged out!", {
