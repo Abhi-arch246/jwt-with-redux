@@ -3,27 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { logoutUser } from '../actions/userAction'
+import { logoutUser, fetchData } from '../actions/userAction'
 
 function Dashboard() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const userdata = JSON.parse(localStorage.getItem('user'))
-
-    const userstate = useSelector(state => state.loginReducer)
-    const { currentUser } = userstate
-    // console.log(currentUser);
-
+    const userdata = JSON.parse(localStorage.getItem('currentUser'))
+    console.log(userdata);
+    const user = useSelector(state => state.fetchReducer)
+    const { currentuser, loading, error } = user
     useEffect(() => {
-        if (!userdata)
+        if (userdata) {
+            dispatch(fetchData(userdata))
+        } else {
             navigate('/')
-    }, [])
-
-
-
-    // if (!userdata) {
-    //     navigate('/')
-    // }
+        }
+    }, [dispatch])
 
 
 
@@ -31,55 +26,62 @@ function Dashboard() {
 
     return (
         <div className='container'>
-            <div className="justify-content-center">
-                <div className="row mt-4">
-                    <div className="col-md-8 mt-5 mx-auto shadow-lg">
-                        <div className='p-5 rounded'>
-                            <h1 className='py-4'>Dashboard</h1>
-                            {userdata && (
-                                <div>
-                                    <h2>Welcome <span className="text-style">{currentUser.username}</span></h2>
-                                    <h2>Your email is <span className='text-style'>{currentUser.email}</span> </h2>
+            {loading ?
+                (
+                    <h1>Loading.....</h1>
+                ) : error ?
+                    (
+                        <h1>Something went wrong</h1>
+                    ) : (
+                        <div className="justify-content-center">
+                            <div className="row mt-4">
+                                <div className="col-md-8 mt-5 mx-auto shadow-lg">
+                                    <div className='p-5 rounded'>
+                                        <h1 className='py-4'>Dashboard</h1>
+                                        {currentuser && (
+                                            <div>
+                                                <h2>Welcome <span className="text-style">{currentuser?.username}</span></h2>
+                                                <h2>Your email is <span className='text-style'>{currentuser?.email}</span> </h2>
+                                            </div>
+
+                                        )
+
+                                        }
+
+                                        <li className='btn btn-danger rounded mt-2 float-end' onClick={() => {
+                                            dispatch(logoutUser())
+                                            toast.error("Logged out!", {
+                                                position: toast.POSITION.TOP_RIGHT,
+                                                autoClose: 2500,
+                                                theme: "colored"
+                                            });
+                                        }}>Logout</li>
+                                    </div>
+                                </div>
+                                <div className="col-md-4">
+
+                                    <lottie-player
+                                        src="https://assets10.lottiefiles.com/packages/lf20_xyadoh9h.json"
+                                        background="transparent"
+                                        speed="1"
+                                        loop
+                                        autoplay
+                                    ></lottie-player>
                                 </div>
 
-                            )
-
-                            }
-
-                            <li className='btn btn-danger rounded mt-2 float-end' onClick={() => {
-                                dispatch(logoutUser())
-                                toast.error("Logged out!", {
-                                    position: toast.POSITION.TOP_RIGHT,
-                                    autoClose: 2500,
-                                    theme: "colored"
-                                });
-                            }}>Logout</li>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-
-                        <lottie-player
-                            src="https://assets10.lottiefiles.com/packages/lf20_xyadoh9h.json"
-                            background="transparent"
-                            speed="1"
-                            loop
-                            autoplay
-                        ></lottie-player>
-                    </div>
-
-                </div>
-                <div className="row m-3">
-                    <div className="col-md-8 table-responsive">
-                        <table className='table table-hover table-stripped'>
-                            <thead className='thead-dark'>
-                                <tr>
-                                    <th scope='col'>User ID</th>
-                                    <th scope='col'>Name</th>
-                                    <th scope='col'>User Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
+                            </div>
+                            <div className="row m-3">
+                                <div className="col-md-8 table-responsive">
+                                    <table className='table table-hover table-stripped'>
+                                        <thead className='thead-dark'>
+                                            <tr>
+                                                <th scope='col'>User ID</th>
+                                                <th scope='col'>Name</th>
+                                                <th scope='col'>User Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
                                    /* users.length > 0 ? (
                                         users.map(user => {
                                             return <tr key={user._id}>
@@ -100,13 +102,16 @@ function Dashboard() {
                                         </tr>
                                     })
                                 )} */}
-                            </tbody>
+                                        </tbody>
 
-                        </table>
+                                    </table>
 
-                    </div>
-                </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+            }
+
 
         </div>
     )

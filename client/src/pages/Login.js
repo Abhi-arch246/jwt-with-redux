@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import loginpic from '../online-optics.svg'
 function Login() {
+
     const navigate = useNavigate()
     const loginreducer = useSelector(state => state.loginReducer)
     const { success, error } = loginreducer
@@ -21,10 +22,9 @@ function Login() {
         dispatch(loginUser(user))
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('currentUser'))
-            navigate('/dashboard')
-    }, [])
+
+
+
 
     return (
         <div className='row bgcolor pt-4'>
@@ -37,27 +37,30 @@ function Login() {
                 <div className="card p-3 bg-white">
                     <h2 className='pt-2 px-4'>Login</h2>
                     {error && (
-                        toast.error("Error Notification !", {
+                        toast.error(error, {
                             position: toast.POSITION.TOP_RIGHT,
                             autoClose: 2500,
                             theme: "colored"
                         })
                     )}
-                    {success && (
-                        toast.success("Successful login !", {
-                            position: toast.POSITION.TOP_RIGHT,
-                            autoClose: 2500,
-                            theme: "colored"
-                        })
-                    )}
+                    {
+                        success && (
+                            toast.success("Successful login", {
+                                position: toast.POSITION.TOP_RIGHT,
+                                autoClose: 2500,
+                                theme: "colored"
+                            })
+                        )
+                    }
+
                     <form onSubmit={loginsubmit} className='mt-5 mx-4'>
                         <div className="form-group">
                             <h5>Email address</h5>
-                            <input type="email" value={email} onChange={(e) => setemail(e.target.value)} className="form-control" placeholder="Enter email" autoFocus />
+                            <input type="email" value={email} onChange={(e) => setemail(e.target.value)} className="form-control" required placeholder="Enter email" autoFocus />
                         </div>
                         <div className="form-group mt-4">
                             <h5>Password</h5>
-                            <input type="password" value={password} onChange={(e) => setpassword(e.target.value)} className="form-control" placeholder="Password" />
+                            <input type="password" value={password} onChange={(e) => setpassword(e.target.value)} className="form-control" required placeholder="Password" />
                         </div>
                         <div className='text-center'>
                             <button type="submit" className="submit-btn mt-5">Submit</button>

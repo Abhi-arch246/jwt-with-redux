@@ -3,7 +3,6 @@ const User = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 
 
-
 const registerUser = async (req, res) => {
     const { username, email, password } = req.body
 
@@ -67,13 +66,13 @@ const loginUser = async (req, res) => {
 }
 
 const meRoute = async (req, res) => {
-    const { _id, username, email } = await User.findById(req.user.id)
+    try {
+        res.status(200).json({ payload: req.body.user })
+    } catch (error) {
+        res.status(400).json({ msg: error })
+    }
 
-    res.status(200).json({
-        id: _id,
-        username,
-        email
-    })
+
 
 }
 

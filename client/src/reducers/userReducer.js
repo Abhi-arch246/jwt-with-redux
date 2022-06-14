@@ -20,6 +20,29 @@ export const registerReducer = (state = {}, action) => {
     }
 }
 
+export const fetchReducer = (state = {}, action) => {
+
+    switch (action.type) {
+        case 'USER_INFO_REQUEST': return {
+            ...state,
+            loading: true
+        }
+        case 'USER_INFO_SUCCESS': return {
+            ...state,
+            loading: false,
+            success: true,
+            currentuser: action.payload
+        }
+        case 'USER_INFO_ERROR': return {
+            ...state,
+            loading: false,
+            error: true
+        }
+
+        default: return state
+    }
+}
+
 export const loginReducer = (state = {}, action) => {
 
     switch (action.type) {

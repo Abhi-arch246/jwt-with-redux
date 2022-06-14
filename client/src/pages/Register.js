@@ -37,7 +37,7 @@ function Register() {
         <div className='row bgcolor p-4'>
             <h2 className='text-white text-center pb-1'>Ay! Captain Register here</h2>
 
-            <div className="col-md-4 mx-auto mt-3 py-5">
+            <div className="col-md-5 mx-auto mt-3 py-5 px-5">
                 <div className="card p-3 bg-white">
                     <h2 className='pt-2 px-4'>Register</h2>
                     <form className='mt-5 mx-4' onSubmit={registerSubmit}>
@@ -62,7 +62,7 @@ function Register() {
                             <button type="submit" className="submit-btn mt-5">Submit</button>
                         </div>
                     </form>
-                    <Link className="text-primary text-center my-3" to="/">Already Registered? Click here</Link>
+                    <Link className="text-primary text-center my-3" to="/">Already Registered? Click here to login</Link>
                 </div>
                 <ToastContainer />
             </div>

@@ -1,16 +1,16 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
-import { loginReducer, registerReducer } from './reducers/userReducer'
+import { loginReducer, registerReducer, fetchReducer } from './reducers/userReducer'
 import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
     loginReducer: loginReducer,
-    registerReducer: registerReducer
+    registerReducer: registerReducer,
+    fetchReducer: fetchReducer
 })
 
-const currentUser = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')) : null
 
 const initialState = {
-    loginReducer: { currentUser: currentUser }
+
 }
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk))
